@@ -1,49 +1,163 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Para ti 💌</title>
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-      font-family: Arial, sans-serif;
-      text-align: center;
-      color: white;
-    }
-    #contenido {
-      font-size: 2rem;
-      max-width: 90%;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>Para ti 💌</title>
+
+<style>
+body {
+  margin:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background: linear-gradient(135deg,#ff9a9e,#fad0c4);
+  font-family: Arial, sans-serif;
+  text-align:center;
+  color:white;
+  overflow:hidden;
+}
+
+#contenido {
+  max-width:90%;
+}
+
+h1 { font-size:2.5rem; }
+p { font-size:1.3rem; }
+
+.carta {
+  animation: aparecer 2s ease;
+}
+
+@keyframes aparecer {
+  from { opacity:0; transform: translateY(50px); }
+  to { opacity:1; transform: translateY(0); }
+}
+
+#contador {
+  font-size:2rem;
+  margin-top:20px;
+}
+
+button {
+  margin:10px;
+  padding:15px 25px;
+  border:none;
+  border-radius:30px;
+  font-size:1.2rem;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.si {
+  background:#ff4d6d;
+  color:white;
+}
+
+.obvio {
+  background:#ff85a1;
+  color:white;
+}
+
+button:hover {
+  transform: scale(1.1);
+}
+
+.corazones {
+  position:absolute;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  top:0;
+  left:0;
+}
+
+.corazones span {
+  position:absolute;
+  color:white;
+  font-size:20px;
+  animation: flotar 10s linear infinite;
+}
+
+@keyframes flotar {
+  from { transform: translateY(100vh); }
+  to { transform: translateY(-10vh); }
+}
+</style>
+
 </head>
 <body>
 
 <div id="contenido"></div>
 
+<div class="corazones" id="corazones"></div>
+
+<audio id="musica" loop>
+  <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mpeg">
+</audio>
+
 <script>
+const activacion = new Date("2026-03-30T20:00:00");
+const contenido = document.getElementById("contenido");
+const musica = document.getElementById("musica");
+
+function actualizar() {
   const ahora = new Date();
-
-  const activacion = new Date("2026-03-30T20:00:00");
-
-  const contenido = document.getElementById("contenido");
 
   if (ahora >= activacion) {
     contenido.innerHTML = `
-      <p>❤️</p>
-      <p>Lore…</p>
-      <p>¿Quieres ser mi novia? 💖</p>
+      <div class="carta">
+        <p>Lore…</p>
+        <p>Desde que llegaste, todo se siente diferente ✨</p>
+        <p>Y hoy quiero preguntarte algo muy importante…</p>
+        <h1>¿Quieres ser mi novia? 💖</h1>
+
+        <button class="si" onclick="respuesta()">Sí 💖</button>
+        <button class="obvio" onclick="respuesta()">Obvio sí 😍</button>
+      </div>
     `;
+    musica.play();
   } else {
+    const diff = activacion - ahora;
+
+    const h = Math.floor(diff / 1000 / 60 / 60);
+    const m = Math.floor((diff / 1000 / 60) % 60);
+    const s = Math.floor((diff / 1000) % 60);
+
     contenido.innerHTML = `
-      <p>💌 Este mensaje se desbloquea a las 8:00 pm ⏳</p>
+      <p>💌 Este momento es especial…</p>
+      <p>Se desbloquea en:</p>
+      <div id="contador">${h}h ${m}m ${s}s ⏳</div>
+      <p>No te desesperes ❤️</p>
     `;
   }
+}
+
+setInterval(actualizar, 1000);
+
+function respuesta() {
+  contenido.innerHTML = `
+    <h1>❤️ Sabía que dirías que sí ❤️</h1>
+    <p>Te prometo hacerte muy feliz 💖</p>
+  `;
+}
+
+function crearCorazones() {
+  const cont = document.getElementById("corazones");
+  for (let i=0;i<20;i++){
+    let span = document.createElement("span");
+    span.innerHTML = "❤️";
+    span.style.left = Math.random()*100+"%";
+    span.style.animationDuration = (5+Math.random()*5)+"s";
+    cont.appendChild(span);
+  }
+}
+
+crearCorazones();
 </script>
+
+</body>
+</html>
 
 </body>
 </html>
