@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Para ti 💌</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      font-family: Arial, sans-serif;
+      text-align: center;
+      color: white;
+    }
+    #contenido {
+      font-size: 2rem;
+      max-width: 90%;
+    }
+  </style>
+</head>
+<body>
+
+<div id="contenido"></div>
+
+<script>
+  const ahora = new Date();
+
+  const activacion = new Date("2026-03-30T20:00:00");
+
+  const contenido = document.getElementById("contenido");
+
+  if (ahora >= activacion) {
+    contenido.innerHTML = `
+      <p>❤️</p>
+      <p>Lore…</p>
+      <p>¿Quieres ser mi novia? 💖</p>
+    `;
+  } else {
+    contenido.innerHTML = `
+      <p>💌 Este mensaje se desbloquea a las 8:00 pm ⏳</p>
+    `;
+  }
+</script>
+
+</body>
+</html>
