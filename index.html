@@ -11,34 +11,51 @@ body {
   display:flex;
   justify-content:center;
   align-items:center;
-  background: linear-gradient(135deg,#ff9a9e,#fad0c4);
+  background:black;
   font-family: Arial, sans-serif;
   text-align:center;
   color:white;
   overflow:hidden;
 }
 
+/* INTRO NETFLIX */
+#intro {
+  position:absolute;
+  width:100%;
+  height:100%;
+  background:black;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:4rem;
+  letter-spacing:10px;
+  animation: introAnim 3s forwards;
+}
+
+@keyframes introAnim {
+  0% { opacity:0; transform: scale(0.5);}
+  50% { opacity:1; transform: scale(1.2);}
+  100% { opacity:0; transform: scale(1);}
+}
+
+/* CONTENIDO */
 #contenido {
+  display:none;
   max-width:90%;
 }
 
-h1 { font-size:2.5rem; }
-p { font-size:1.3rem; }
-
-.carta {
-  animation: aparecer 2s ease;
+/* NOMBRE ANIMADO */
+.nombre {
+  font-size:3rem;
+  animation: brillo 2s infinite;
 }
 
-@keyframes aparecer {
-  from { opacity:0; transform: translateY(50px); }
-  to { opacity:1; transform: translateY(0); }
+@keyframes brillo {
+  0%,100% { color:#fff; }
+  50% { color:#ff4d6d; }
 }
 
-#contador {
-  font-size:2rem;
-  margin-top:20px;
-}
-
+/* BOTONES */
 button {
   margin:10px;
   padding:15px 25px;
@@ -46,71 +63,57 @@ button {
   border-radius:30px;
   font-size:1.2rem;
   cursor:pointer;
-  transition:0.3s;
 }
 
-.si {
-  background:#ff4d6d;
-  color:white;
-}
+.si { background:#ff4d6d; color:white; }
+.obvio { background:#ff85a1; color:white; }
 
-.obvio {
-  background:#ff85a1;
-  color:white;
-}
-
-button:hover {
-  transform: scale(1.1);
-}
-
-.corazones {
-  position:absolute;
-  width:100%;
-  height:100%;
-  overflow:hidden;
-  top:0;
-  left:0;
-}
-
+/* CORAZONES */
 .corazones span {
   position:absolute;
   color:white;
-  font-size:20px;
   animation: flotar 10s linear infinite;
 }
 
 @keyframes flotar {
-  from { transform: translateY(100vh); }
-  to { transform: translateY(-10vh); }
+  from { transform: translateY(100vh);}
+  to { transform: translateY(-10vh);}
 }
 </style>
 
 </head>
 <body>
 
+<div id="intro">LORE</div>
+
 <div id="contenido"></div>
 
-<div class="corazones" id="corazones"></div>
-
 <audio id="musica" loop>
-  <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mpeg">
+  <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3">
 </audio>
 
 <script>
-const activacion = new Date("2026-03-30T17:19:00");
+const activacion = new Date("2026-03-30T17:35:00");
 const contenido = document.getElementById("contenido");
+const intro = document.getElementById("intro");
 const musica = document.getElementById("musica");
 
-function actualizar() {
+/* INTRO */
+setTimeout(()=>{
+  intro.style.display="none";
+  contenido.style.display="block";
+},3000);
+
+/* CUENTA REGRESIVA / PREGUNTA */
+function actualizar(){
   const ahora = new Date();
 
-  if (ahora >= activacion) {
+  if (ahora >= activacion){
     contenido.innerHTML = `
-      <div class="carta">
-        <p>Lore…</p>
-        <p>Desde que llegaste, todo se siente diferente ✨</p>
-        <p>Y hoy quiero preguntarte algo muy importante…</p>
-        <h1>¿Quieres ser mi novia? 💖</h1>
+      <div>
+        <div class="nombre">Lore 💖</div>
+        <p>Desde que llegaste… todo cambió ✨</p>
+        <h1>¿Quieres ser mi novia? ❤️</h1>
 
         <button class="si" onclick="respuesta()">Sí 💖</button>
         <button class="obvio" onclick="respuesta()">Obvio sí 😍</button>
@@ -119,45 +122,31 @@ function actualizar() {
     musica.play();
   } else {
     const diff = activacion - ahora;
-
-    const h = Math.floor(diff / 1000 / 60 / 60);
-    const m = Math.floor((diff / 1000 / 60) % 60);
-    const s = Math.floor((diff / 1000) % 60);
+    const h = Math.floor(diff/1000/60/60);
+    const m = Math.floor((diff/1000/60)%60);
+    const s = Math.floor((diff/1000)%60);
 
     contenido.innerHTML = `
-      <p>💌 Este momento es especial…</p>
-      <p>Se desbloquea en:</p>
-      <div id="contador">${h}h ${m}m ${s}s ⏳</div>
-      <p>No te desesperes ❤️</p>
+      <p>💌 Este momento es especial</p>
+      <h2>${h}h ${m}m ${s}s ⏳</h2>
     `;
   }
 }
 
-setInterval(actualizar, 1000);
+setInterval(actualizar,1000);
 
-function respuesta() {
+/* RESPUESTA */
+function respuesta(){
+  if (navigator.vibrate){
+    navigator.vibrate([200,100,200]);
+  }
+
   contenido.innerHTML = `
     <h1>❤️ Sabía que dirías que sí ❤️</h1>
-    <p>Te prometo hacerte muy feliz 💖</p>
+    <p>Prometo hacerte muy feliz 💖</p>
   `;
 }
-
-function crearCorazones() {
-  const cont = document.getElementById("corazones");
-  for (let i=0;i<20;i++){
-    let span = document.createElement("span");
-    span.innerHTML = "❤️";
-    span.style.left = Math.random()*100+"%";
-    span.style.animationDuration = (5+Math.random()*5)+"s";
-    cont.appendChild(span);
-  }
-}
-
-crearCorazones();
 </script>
-
-</body>
-</html>
 
 </body>
 </html>
