@@ -1,6 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Para Lore 💌</title>
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:black;
+  font-family:Arial,sans-serif;
+  text-align:center;
+  color:white;
+  overflow:hidden;
+}
+
+/* INTRO */
+#intro{
+  position:absolute;
+  width:100%;
+  height:100%;
+  background:black;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:4rem;
+  letter-spacing:12px;
+  font-weight:bold;
+  animation:introAnim 3s forwards;
+  z-index:10;
+}
+
+@keyframes introAnim{
+  0%{
+    opacity:0;
+    transform:scale(0.5);
+    color:#ff4d6d;
+  }
+  50%{
+    opacity:1;
+    transform:scale(1.2);
+    color:white;
+  }
+  100%{
+    opacity:0;
+    transform:scale(1);
+  }
+}
+
+/* CONTENIDO */
+#contenido{
+  display:none;
+  max-width:90%;
+  z-index:2;
+}
+
+/* NOMBRE */
+.nombre{
+  font-size:3rem;
+  animation:brillo 2s infinite;
+  margin-bottom:20px;
+}
+
+@keyframes brillo{
+  0%,100%{color:white;}
+  50%{color:#ff4d6d;}
+}
+
+/* BOTONES */
+button{
+  margin:10px;
+  padding:15px 25px;
+  border:none;
+  border-radius:30px;
+  font-size:1.2rem;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+button:hover{
+  transform:scale(1.1);
+}
+
+.si{
+  background:#ff4d6d;
+  color:white;
+}
+
+.obvio{
+  background:#ff85a1;
+  color:white;
+}
+
+/* CORAZONES */
+.corazones span{
+  position:absolute;
+  color:white;
+  animation:flotar linear infinite;
+}
+
+@keyframes flotar{
+  from{
+    transform:translateY(100vh);
+    opacity:1;
+  }
+  to{
+    transform:translateY(-10vh);
+    opacity:0;
+  }
+}
+
+/* APARECER */
+@keyframes aparecer{
+  from{
+    opacity:0;
+    transform:translateY(20px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div id="intro">LORE</div>
+
+<div id="contenido"></div>
+
+<div class="corazones" id="corazones"></div>
+
+<audio id="musica" loop>
+  <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mpeg">
+</audio>
+
 <script>
 
-/* FECHA */
+/* FECHA DE ACTIVACIÓN */
 const activacion = new Date("2026-05-15T23:55:00");
 
 const contenido = document.getElementById("contenido");
@@ -14,7 +155,7 @@ setTimeout(()=>{
   iniciar();
 },3000);
 
-/* PANTALLA INICIAL */
+/* INICIAR */
 function iniciar(){
 
   const ahora = new Date();
@@ -28,7 +169,7 @@ function iniciar(){
   }
 }
 
-/* CUENTA */
+/* MOSTRAR CUENTA */
 function mostrarCuenta(){
 
   contenido.innerHTML = `
@@ -80,7 +221,7 @@ function mostrarCuenta(){
   `;
 }
 
-/* SOLO ACTUALIZA EL TEXTO */
+/* ACTUALIZAR CONTADOR */
 function actualizarContador(){
 
   const ahora = new Date();
@@ -99,7 +240,7 @@ function actualizarContador(){
     `${h}h ${m}m ${s}s ⏳`;
 }
 
-/* PREGUNTA */
+/* MOSTRAR PREGUNTA */
 function mostrarPregunta(){
 
   contenido.innerHTML = `
@@ -185,3 +326,6 @@ function crearCorazones(){
 crearCorazones();
 
 </script>
+
+</body>
+</html>
