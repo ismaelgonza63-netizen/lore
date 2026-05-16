@@ -5,21 +5,21 @@
 <title>Para Lore 💌</title>
 
 <style>
-body {
+body{
   margin:0;
   height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
   background:black;
-  font-family: Arial, sans-serif;
+  font-family:Arial,sans-serif;
   text-align:center;
   color:white;
   overflow:hidden;
 }
 
-/* INTRO ESTILO NETFLIX */
-#intro {
+/* INTRO */
+#intro{
   position:absolute;
   width:100%;
   height:100%;
@@ -31,46 +31,47 @@ body {
   letter-spacing:12px;
   font-weight:bold;
   animation:introAnim 3s forwards;
+  z-index:10;
 }
 
-@keyframes introAnim {
-  0% {
+@keyframes introAnim{
+  0%{
     opacity:0;
     transform:scale(0.5);
     color:#ff4d6d;
   }
-  50% {
+  50%{
     opacity:1;
     transform:scale(1.2);
     color:white;
   }
-  100% {
+  100%{
     opacity:0;
     transform:scale(1);
   }
 }
 
 /* CONTENIDO */
-#contenido {
+#contenido{
   display:none;
   max-width:90%;
   z-index:2;
 }
 
-/* NOMBRE ANIMADO */
-.nombre {
+/* NOMBRE */
+.nombre{
   font-size:3rem;
   animation:brillo 2s infinite;
   margin-bottom:20px;
 }
 
-@keyframes brillo {
-  0%,100% { color:white; }
-  50% { color:#ff4d6d; }
+@keyframes brillo{
+  0%,100%{color:white;}
+  50%{color:#ff4d6d;}
 }
 
 /* BOTONES */
-button {
+button{
   margin:10px;
   padding:15px 25px;
   border:none;
@@ -80,53 +81,52 @@ button {
   transition:0.3s;
 }
 
-button:hover {
+button:hover{
   transform:scale(1.1);
 }
 
-.si {
+.si{
   background:#ff4d6d;
   color:white;
 }
 
-.obvio {
+.obvio{
   background:#ff85a1;
   color:white;
 }
 
 /* CORAZONES */
-.corazones span {
+.corazones span{
   position:absolute;
   color:white;
-  font-size:20px;
   animation:flotar linear infinite;
 }
 
-@keyframes flotar {
-  from {
+@keyframes flotar{
+  from{
     transform:translateY(100vh);
     opacity:1;
   }
-  to {
+  to{
     transform:translateY(-10vh);
     opacity:0;
   }
 }
 
-/* APARICIÓN */
-@keyframes aparecer {
-  from {
+/* APARECER */
+@keyframes aparecer{
+  from{
     opacity:0;
     transform:translateY(20px);
   }
-  to {
+  to{
     opacity:1;
     transform:translateY(0);
   }
 }
 </style>
-
 </head>
+
 <body>
 
 <div id="intro">LORE</div>
@@ -141,51 +141,58 @@ button:hover {
 
 <script>
 
-/* FECHA Y HORA */
-const activacion = new Date("2026-05-15T23:59:00");
+/* FECHA */
+const activacion = new Date("2026-05-08T23:30:00");
 
 const contenido = document.getElementById("contenido");
 const intro = document.getElementById("intro");
 const musica = document.getElementById("musica");
 
 /* INTRO */
-setTimeout(() => {
-  intro.style.display = "none";
-  contenido.style.display = "block";
-}, 3000);
+setTimeout(()=>{
+  intro.style.display="none";
+  contenido.style.display="block";
+},3000);
 
 /* ACTUALIZAR */
-function actualizar() {
+let mostrado = false;
+
+function actualizar(){
 
   const ahora = new Date();
 
-  if (ahora >= activacion) {
+  if(ahora >= activacion){
 
-    contenido.innerHTML = `
-      <div style="animation: aparecer 2s;">
+    if(!mostrado){
 
-        <div class="nombre">Lore 💖</div>
+      mostrado = true;
 
-        <p style="font-size:1.3rem;">
-          Desde que llegaste… todo cambió ✨
-        </p>
+      contenido.innerHTML = `
+        <div style="animation: aparecer 2s;">
 
-        <h1 style="font-size:2.8rem;">
-          ¿Quieres ser mi novia? ❤️
-        </h1>
+          <div class="nombre">Lore 💖</div>
 
-        <button class="si" onclick="respuesta()">
-          Sí 💖
-        </button>
+          <p style="font-size:1.3rem;">
+            Desde que llegaste… todo cambió ✨
+          </p>
 
-        <button class="obvio" onclick="respuesta()">
-          Obvio sí 😍
-        </button>
+          <h1 style="font-size:2.8rem;">
+            ¿Quieres ser mi novia? ❤️
+          </h1>
 
-      </div>
-    `;
+          <button class="si" onclick="respuesta()">
+            Sí 💖
+          </button>
 
-    musica.play();
+          <button class="obvio" onclick="respuesta()">
+            Obvio sí 😍
+          </button>
+
+        </div>
+      `;
+
+      musica.play();
+    }
 
   } else {
 
@@ -195,68 +202,75 @@ function actualizar() {
     const m = Math.floor((diff / 1000 / 60) % 60);
     const s = Math.floor((diff / 1000) % 60);
 
-    contenido.innerHTML = `
-      <div style="animation: aparecer 2s;">
+    if(!document.getElementById("contador")){
 
-        <p style="font-size:1.5rem;">💌 Lore…</p>
+      contenido.innerHTML = `
+        <div style="animation: aparecer 2s;">
 
-        <p style="
-          font-size:1.2rem;
-          max-width:700px;
-          margin:auto;
-          line-height:1.8;
-          padding:10px;
-        ">
-          No sé si las coincidencias existen o si simplemente Diosito
-          acomoda las cosas de formas inesperadas… ✨
-          <br><br>
+          <p style="font-size:1.5rem;">💌 Lore…</p>
 
-          Pero estoy seguro de que habernos cruzado en el camino
-          pasó por algo muy bonito ❤️
-          <br><br>
+          <p style="
+            font-size:1.2rem;
+            max-width:700px;
+            margin:auto;
+            line-height:1.8;
+            padding:10px;
+          ">
+            No sé si las coincidencias existen o si simplemente Diosito
+            acomoda las cosas de formas inesperadas… ✨
+            <br><br>
 
-          Gracias por permitirme conocerte este tiempo,
-          por cada risa, cada plática y cada momento
-          que sin darte cuenta has hecho especial para mí 💖
-          <br><br>
+            Pero estoy seguro de que habernos cruzado en el camino
+            pasó por algo muy bonito ❤️
+            <br><br>
 
-          Desde que llegaste, mis días se sienten distintos…
-          y honestamente ya no imagino no hablar contigo ✨
-          <br><br>
+            Gracias por permitirme conocerte este tiempo,
+            por cada risa, cada plática y cada momento
+            que sin darte cuenta has hecho especial para mí 💖
+            <br><br>
 
-          Hay preguntas que merecen el momento perfecto…
-        </p>
+            Desde que llegaste, mis días se sienten distintos…
+            y honestamente ya no imagino no hablar contigo ✨
+            <br><br>
 
-        <h2 style="
-          margin-top:30px;
-          font-size:2rem;
-        ">
-          ${h}h ${m}m ${s}s ⏳
-        </h2>
+            Hay preguntas que merecen el momento perfecto…
+          </p>
 
-        <p style="
-          opacity:0.8;
-          margin-top:10px;
-        ">
-          Falta muy poquito 💖
-        </p>
+          <h2 id="contador" style="
+            margin-top:30px;
+            font-size:2rem;
+          ">
+          </h2>
 
-      </div>
-    `;
+          <p style="
+            opacity:0.8;
+            margin-top:10px;
+          ">
+            Falta muy poquito 💖
+          </p>
+
+        </div>
+      `;
+    }
+
+    document.getElementById("contador").innerHTML =
+      `${h}h ${m}m ${s}s ⏳`;
   }
 }
 
-setInterval(actualizar, 1000);
+setInterval(actualizar,1000);
+actualizar();
 
 /* RESPUESTA */
-function respuesta() {
+function respuesta(){
 
-  if (navigator.vibrate) {
+  if(navigator.vibrate){
     navigator.vibrate([200,100,200,100,300]);
   }
 
   contenido.innerHTML = `
     <div style="animation: aparecer 2s;">
+
       <h1 style="font-size:3rem;">
         ❤️ Sabía que dirías que sí ❤️
       </h1>
@@ -269,28 +283,32 @@ function respuesta() {
         <br><br>
         Gracias por elegirnos ✨
       </p>
+
     </div>
   `;
 }
 
 /* CORAZONES */
-function crearCorazones() {
+function crearCorazones(){
 
-  const contenedor = document.getElementById("corazones");
+  const contenedor =
+    document.getElementById("corazones");
 
-  for (let i = 0; i < 25; i++) {
+  for(let i=0;i<25;i++){
 
-    const corazon = document.createElement("span");
+    const corazon =
+      document.createElement("span");
 
     corazon.innerHTML = "❤️";
 
-    corazon.style.left = Math.random() * 100 + "%";
+    corazon.style.left =
+      Math.random()*100+"%";
 
     corazon.style.animationDuration =
-      (5 + Math.random() * 5) + "s";
+      (5+Math.random()*5)+"s";
 
     corazon.style.fontSize =
-      (15 + Math.random() * 20) + "px";
+      (15+Math.random()*20)+"px";
 
     contenedor.appendChild(corazon);
   }
