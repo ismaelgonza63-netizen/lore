@@ -1,144 +1,3 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<title>Para Lore 💌</title>
-
-<style>
-body{
-  margin:0;
-  height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background:black;
-  font-family:Arial,sans-serif;
-  text-align:center;
-  color:white;
-  overflow:hidden;
-}
-
-/* INTRO */
-#intro{
-  position:absolute;
-  width:100%;
-  height:100%;
-  background:black;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-size:4rem;
-  letter-spacing:12px;
-  font-weight:bold;
-  animation:introAnim 3s forwards;
-  z-index:10;
-}
-
-@keyframes introAnim{
-  0%{
-    opacity:0;
-    transform:scale(0.5);
-    color:#ff4d6d;
-  }
-  50%{
-    opacity:1;
-    transform:scale(1.2);
-    color:white;
-  }
-  100%{
-    opacity:0;
-    transform:scale(1);
-  }
-}
-
-/* CONTENIDO */
-#contenido{
-  display:none;
-  max-width:90%;
-  z-index:2;
-}
-
-/* NOMBRE */
-.nombre{
-  font-size:3rem;
-  animation:brillo 2s infinite;
-  margin-bottom:20px;
-}
-
-@keyframes brillo{
-  0%,100%{color:white;}
-  50%{color:#ff4d6d;}
-}
-
-/* BOTONES */
-button{
-  margin:10px;
-  padding:15px 25px;
-  border:none;
-  border-radius:30px;
-  font-size:1.2rem;
-  cursor:pointer;
-  transition:0.3s;
-}
-
-button:hover{
-  transform:scale(1.1);
-}
-
-.si{
-  background:#ff4d6d;
-  color:white;
-}
-
-.obvio{
-  background:#ff85a1;
-  color:white;
-}
-
-/* CORAZONES */
-.corazones span{
-  position:absolute;
-  color:white;
-  animation:flotar linear infinite;
-}
-
-@keyframes flotar{
-  from{
-    transform:translateY(100vh);
-    opacity:1;
-  }
-  to{
-    transform:translateY(-10vh);
-    opacity:0;
-  }
-}
-
-/* APARECER */
-@keyframes aparecer{
-  from{
-    opacity:0;
-    transform:translateY(20px);
-  }
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
-}
-</style>
-</head>
-
-<body>
-
-<div id="intro">LORE</div>
-
-<div id="contenido"></div>
-
-<div class="corazones" id="corazones"></div>
-
-<audio id="musica" loop>
-  <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mpeg">
-</audio>
-
 <script>
 
 /* FECHA */
@@ -152,114 +11,123 @@ const musica = document.getElementById("musica");
 setTimeout(()=>{
   intro.style.display="none";
   contenido.style.display="block";
+  iniciar();
 },3000);
 
-/* ACTUALIZAR */
-let mostrado = false;
-
-function actualizar(){
+/* PANTALLA INICIAL */
+function iniciar(){
 
   const ahora = new Date();
 
   if(ahora >= activacion){
-
-    if(!mostrado){
-
-      mostrado = true;
-
-      contenido.innerHTML = `
-        <div style="animation: aparecer 2s;">
-
-          <div class="nombre">Lore 💖</div>
-
-          <p style="font-size:1.3rem;">
-            Desde que llegaste… todo cambió ✨
-          </p>
-
-          <h1 style="font-size:2.8rem;">
-            ¿Quieres ser mi novia? ❤️
-          </h1>
-
-          <button class="si" onclick="respuesta()">
-            Sí 💖
-          </button>
-
-          <button class="obvio" onclick="respuesta()">
-            Obvio sí 😍
-          </button>
-
-        </div>
-      `;
-
-      musica.play();
-    }
-
-  } else {
-
-    const diff = activacion - ahora;
-
-    const h = Math.floor(diff / 1000 / 60 / 60);
-    const m = Math.floor((diff / 1000 / 60) % 60);
-    const s = Math.floor((diff / 1000) % 60);
-
-    if(!document.getElementById("contador")){
-
-      contenido.innerHTML = `
-        <div style="animation: aparecer 2s;">
-
-          <p style="font-size:1.5rem;">💌 Lore…</p>
-
-          <p style="
-            font-size:1.2rem;
-            max-width:700px;
-            margin:auto;
-            line-height:1.8;
-            padding:10px;
-          ">
-            No sé si las coincidencias existen o si simplemente Diosito
-            acomoda las cosas de formas inesperadas… ✨
-            <br><br>
-
-            Pero estoy seguro de que habernos cruzado en el camino
-            pasó por algo muy bonito ❤️
-            <br><br>
-
-            Gracias por permitirme conocerte este tiempo,
-            por cada risa, cada plática y cada momento
-            que sin darte cuenta has hecho especial para mí 💖
-            <br><br>
-
-            Desde que llegaste, mis días se sienten distintos…
-            y honestamente ya no imagino no hablar contigo ✨
-            <br><br>
-
-            Hay preguntas que merecen el momento perfecto…
-          </p>
-
-          <h2 id="contador" style="
-            margin-top:30px;
-            font-size:2rem;
-          ">
-          </h2>
-
-          <p style="
-            opacity:0.8;
-            margin-top:10px;
-          ">
-            Falta muy poquito 💖
-          </p>
-
-        </div>
-      `;
-    }
-
-    document.getElementById("contador").innerHTML =
-      `${h}h ${m}m ${s}s ⏳`;
+    mostrarPregunta();
+  }else{
+    mostrarCuenta();
+    actualizarContador();
+    setInterval(actualizarContador,1000);
   }
 }
 
-setInterval(actualizar,1000);
-actualizar();
+/* CUENTA */
+function mostrarCuenta(){
+
+  contenido.innerHTML = `
+    <div style="animation: aparecer 2s;">
+
+      <p style="font-size:1.5rem;">💌 Lore…</p>
+
+      <p style="
+        font-size:1.2rem;
+        max-width:700px;
+        margin:auto;
+        line-height:1.8;
+        padding:10px;
+      ">
+        No sé si las coincidencias existen o si simplemente Diosito
+        acomoda las cosas de formas inesperadas… ✨
+        <br><br>
+
+        Pero estoy seguro de que habernos cruzado en el camino
+        pasó por algo muy bonito ❤️
+        <br><br>
+
+        Gracias por permitirme conocerte este tiempo,
+        por cada risa, cada plática y cada momento
+        que sin darte cuenta has hecho especial para mí 💖
+        <br><br>
+
+        Desde que llegaste, mis días se sienten distintos…
+        y honestamente ya no imagino no hablar contigo ✨
+        <br><br>
+
+        Hay preguntas que merecen el momento perfecto…
+      </p>
+
+      <h2 id="contador" style="
+        margin-top:30px;
+        font-size:2rem;
+      ">
+      </h2>
+
+      <p style="
+        opacity:0.8;
+        margin-top:10px;
+      ">
+        Falta muy poquito 💖
+      </p>
+
+    </div>
+  `;
+}
+
+/* SOLO ACTUALIZA EL TEXTO */
+function actualizarContador(){
+
+  const ahora = new Date();
+  const diff = activacion - ahora;
+
+  if(diff <= 0){
+    mostrarPregunta();
+    return;
+  }
+
+  const h = Math.floor(diff / 1000 / 60 / 60);
+  const m = Math.floor((diff / 1000 / 60) % 60);
+  const s = Math.floor((diff / 1000) % 60);
+
+  document.getElementById("contador").innerHTML =
+    `${h}h ${m}m ${s}s ⏳`;
+}
+
+/* PREGUNTA */
+function mostrarPregunta(){
+
+  contenido.innerHTML = `
+    <div style="animation: aparecer 2s;">
+
+      <div class="nombre">Lore 💖</div>
+
+      <p style="font-size:1.3rem;">
+        Desde que llegaste… todo cambió ✨
+      </p>
+
+      <h1 style="font-size:2.8rem;">
+        ¿Quieres ser mi novia? ❤️
+      </h1>
+
+      <button class="si" onclick="respuesta()">
+        Sí 💖
+      </button>
+
+      <button class="obvio" onclick="respuesta()">
+        Obvio sí 😍
+      </button>
+
+    </div>
+  `;
+
+  musica.play();
+}
 
 /* RESPUESTA */
 function respuesta(){
@@ -317,6 +185,3 @@ function crearCorazones(){
 crearCorazones();
 
 </script>
-
-</body>
-</html>
